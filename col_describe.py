@@ -4,12 +4,30 @@ import shutil
 import argparse
 import os
 import sys
+import logging
+
 from tqdm import tqdm
+
+# Create a custom logger
+logger = logging.getLogger()
+
+# Create handlers
+c_handler = logging.StreamHandler()
+
+# Create formatters and add it to handlers
+c_format = logging.Formatter('%(levelname)s: %(message)s')
+c_handler.setFormatter(c_format)
+
+# Add handlers to the logger
+logger.addHandler(c_handler)
+logger.setLevel(logging.INFO)  # Set level to DEBUG, INFO, WARNING, ERROR, CRITICAL as needed
+
 
 clean_re = re.compile('[\\[\\]\\:\\/\\?\\*]')
 MULTIVALUE_COLUMN_DELIM = '[\\[\\]\:]+'
 SUBROWS_RE = re.compile('\\[(.*?)\\]')
 FIELD_DELIM_RE = re.compile('(?<!\s):(?!\s)')
+SUBCOL_NAME_DELIM = ':'
 multivalue_column_delim_re = re.compile(MULTIVALUE_COLUMN_DELIM)
 
 
@@ -21,8 +39,10 @@ def load_excel_to_dataframe(file_path):
 # Get describe() results for each column
 def get_describe_results(dataframe):
     _describe_results = {}
+    total = len(dataframe)
     for column in tqdm(dataframe.columns, desc="Getting describes for each column", unit="item"):
         _describe_results[column] = dataframe[column].describe()
+        _describe_results[column]['total'] = total
 
     return _describe_results
 
@@ -53,19 +73,31 @@ def add_describe_sheets(file_path, _describe_results):
 
 
 def parse_col(row, col):
-    if pd.isna(row[col]):
-        return None
 
-    # Find all bracketed text matches in the column
-    matches = SUBROWS_RE.findall(row[col])
-    # Split each match on ':' and convert to DataFrame
-    new_df = pd.DataFrame([FIELD_DELIM_RE.split(m) for m in matches])
-    # Assign column names based on the original column name
-    col_matches = SUBROWS_RE.split(col)
-    sub_cols = FIELD_DELIM_RE.split(col_matches[1])
-    col_prefix = col_matches[0].strip()
-    new_df.columns = ['%s_%s' % (col_prefix, x) for x in sub_cols]
-    return new_df
+    try:
+        if pd.isna(row[col]):
+            return None
+
+        # Find all bracketed text matches in the column
+        matches = SUBROWS_RE.findall(row[col])
+
+        # If no matches (and we suspect this is delimited column) it might be a single value missing brackets so
+        # try using the whole value instead
+        # Split each match on ':' and convert to DataFrame
+        if len(matches) == 0:
+            matches = [row[col]]
+
+        new_df = pd.DataFrame([FIELD_DELIM_RE.split(m) for m in matches])
+
+        # Assign column names based on the original column name
+        col_matches = SUBROWS_RE.split(col)
+        sub_cols = col_matches[1].split(SUBCOL_NAME_DELIM)
+        col_prefix = col_matches[0].strip()
+        new_df.columns = ['%s_%s' % (col_prefix, x.strip()) for x in sub_cols]
+        return new_df
+    except Exception as e:
+        logger.debug('Reject column: %s, data: %s, reason: %s' % (col_prefix, row[col], str(e)))
+        return None
 
 
 def main():
@@ -86,7 +118,7 @@ def main():
     # Further split columns that contain delimited values into additional
     # Iterate over columns to find ones with bracketed sub-column names
     for col in tqdm(df.columns, desc="Expanding delimited columns", unit="column"):
-        if ' [' in col and ':' in col and ']' in col:
+        if '[' in col and ':' in col and ']' in col:
             # Parse this column into a list of DataFrames
             dfs = []
             for _, row in df.iterrows():
