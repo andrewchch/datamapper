@@ -88,6 +88,10 @@ def generate_erd_without_attributes(data):
     entities = set()
     connections = set()
 
+    # Map the degree to a color
+    color_map = {1: 'lightblue', 2: 'lightgreen', 3: 'orange', 4: 'red'}
+    MAX_COLOR = 'red'
+
     # Loop through the data
     for entity_1, attribute, related_entity in data:
         entity_1 = entity_1.strip()
@@ -111,6 +115,17 @@ def generate_erd_without_attributes(data):
         if (entity_1, related_entity) not in connections and entity_1 != related_entity:
             erd.edge(entity_1, related_entity)
             connections.add((entity_1, related_entity))
+
+    degree_count = {}
+    for connection in connections:
+        source, target = connection
+        degree_count[source] = degree_count.get(source, 0) + 1
+        degree_count[target] = degree_count.get(target, 0) + 1
+
+    # Update node attributes based on the degree
+    for node, degree in degree_count.items():
+        color = color_map.get(degree, MAX_COLOR)
+        erd.node(node, color=color, style='filled')
 
     # Render the ERD to a file
     erd.render(view=False, format='svg', engine='fdp')
