@@ -138,6 +138,10 @@ def generate_erd_without_attributes(data):
     with open(output_filename_drawio, 'w') as _file:
         _file.write(drawio_xml)
 
+    # Print the set of entities
+    for entity in list(entities):
+        print(entity)
+
 
 # Generate the ERD
 generate_erd_without_attributes(_data)
