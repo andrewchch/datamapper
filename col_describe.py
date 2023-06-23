@@ -43,6 +43,11 @@ def get_describe_results(dataframe):
     for column in tqdm(dataframe.columns, desc="Getting describes for each column", unit="item"):
         _describe_results[column] = dataframe[column].describe()
         _describe_results[column]['total'] = total
+        if _describe_results[column].dtypes == 'object':
+            try:
+                _describe_results[column]['maxlen'] = dataframe[~pd.isna(dataframe[column])][column].apply(len).max()
+            except:
+                pass
 
     return _describe_results
 
@@ -115,7 +120,7 @@ def main():
     sys.stdout.write('Loading file..')
     df = load_excel_to_dataframe(tgt)
 
-    # Further split columns that contain delimited values into additional
+    # Further split columns that contain delimited values into additional rows
     # Iterate over columns to find ones with bracketed sub-column names
     for col in tqdm(df.columns, desc="Expanding delimited columns", unit="column"):
         if '[' in col and ':' in col and ']' in col:
