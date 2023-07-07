@@ -66,7 +66,7 @@ def main():
     for sheet in sheets:
         df = pd.read_excel(src, sheet_name=sheet, engine='openpyxl')
         df['sheet'] = sheet
-        df['Jade Location'] = df['Jade Location'].replace('Details', sheet).replace('Programme Details', 'Prog Definition')
+        df['Jade Location'] = df['Jade Location'].replace('Details', sheet).replace('Programme Details', 'Programme')
         second_column_name = df.columns[1]
         df.rename(columns={second_column_name: 'FieldName'}, inplace=True)
 

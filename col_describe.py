@@ -99,6 +99,7 @@ def parse_col(row, col):
         sub_cols = col_matches[1].split(SUBCOL_NAME_DELIM)
         col_prefix = col_matches[0].strip()
         new_df.columns = ['%s_%s' % (col_prefix, x.strip()) for x in sub_cols]
+
         return new_df
     except Exception as e:
         logger.debug('Reject column: %s, data: %s, reason: %s' % (col_prefix, row[col], str(e)))
