@@ -78,8 +78,8 @@ nlp = spacy.load("en_core_web_sm")
 # Download the Punkt tokenizer used for sentence splitting
 nltk.download("punkt")
 
+# Get the content
 content = extract_text('data\\Fees.docx')
-# Open the PDF file
 
 sentences = sent_tokenize(content)
 
@@ -126,19 +126,7 @@ for entity_name in sorted(list(entities.keys()), key=str.lower):
 # Export the list of entities to Excel, so we can quickly add mappings for them
 df = pd.DataFrame(entities)
 df = df.transpose()
-df.to_excel('entities.xlsx', index=True)
-
-"""
-sorted_list = sorted(valid_sentences, key=lambda x: x[0])
-
-# Print the sorted list
-print(sorted_list)
-"""
-
-"""
-with open('GITF_Manual.txt', 'w') as _out:
-    _out.writelines(['%s\n' % s for _wc, s in valid_sentences])
-"""
+df.to_excel('redacted_entities.xlsx', index=True)
 
 
 

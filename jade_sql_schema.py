@@ -220,3 +220,15 @@ def generate_sql_schema(data):
 
 # Generate the ERD
 generate_sql_schema(_data)
+
+
+    
+
+
+
+
+
+
+
+
+
