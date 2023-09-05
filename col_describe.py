@@ -78,7 +78,7 @@ def add_describe_sheets(file_path, _describe_results):
 
 
 def parse_col(row, col):
-
+    col_prefix = None
     try:
         if pd.isna(row[col]):
             return None
@@ -100,6 +100,11 @@ def parse_col(row, col):
         col_prefix = col_matches[0].strip()
         new_df.columns = ['%s_%s' % (col_prefix, x.strip()) for x in sub_cols]
 
+        # Merge all the columns from the original row into the new DataFrame
+        for _col in row.index:
+            if _col != col:
+                new_df[_col] = row[_col]
+
         return new_df
     except Exception as e:
         logger.debug('Reject column: %s, data: %s, reason: %s' % (col_prefix, row[col], str(e)))
@@ -109,10 +114,13 @@ def parse_col(row, col):
 def main():
     parser = argparse.ArgumentParser(description="Process some file.")
     parser.add_argument('filename', type=str, help='The name of the file to process.')
+    parser.add_argument('key', type=str, help='The column to use as a unique row key')
 
     args = parser.parse_args()
     src = args.filename
     tgt = make_copy_name(src)
+
+    row_key = args.key
 
     # Create a working copy from the backup file
     shutil.copyfile(src, tgt)
@@ -123,25 +131,49 @@ def main():
 
     # Further split columns that contain delimited values into additional rows
     # Iterate over columns to find ones with bracketed sub-column names
+    new_dfs = []
+    cols_to_drop = []
+
+
+
     for col in tqdm(df.columns, desc="Expanding delimited columns", unit="column"):
         if '[' in col and ':' in col and ']' in col:
+            # Collect these for later dropping from the combined dataframe
+            cols_to_drop.append(col)
+
             # Parse this column into a list of DataFrames
             dfs = []
-            for _, row in df.iterrows():
-                _new_df = parse_col(row, col)
-                if _new_df is not None:
-                    dfs.append(_new_df)
+            for _, row in tqdm(df.iterrows(), total=len(df), desc="Expanding rows", unit="row"):
+                expanded_row_df = parse_col(row, col)
+                if expanded_row_df is not None:
+                    dfs.append(expanded_row_df)
 
             # Concatenate these DataFrames into one
             if len(dfs) > 0:
                 parsed_df = pd.concat(dfs)
-                # Reset the index
-                parsed_df.reset_index(drop=True, inplace=True)
-                # Add the parsed DataFrame to the original DataFrame, dropping the original column
-                df = pd.concat([df, parsed_df], axis=1).drop(columns=col)
+                # Set the index to our key value
+                #parsed_df.set_index([row_key], inplace=True)
+                # Add the parsed DataFrame to the new DataFrame
+                new_dfs.append(parsed_df)
 
+    # Concat all the new DFs
+    if len(new_dfs) > 0:
+        new_df = pd.concat(new_dfs, ignore_index=True)
+
+        # Drop the original columns
+        new_df.drop(columns=cols_to_drop, inplace=True)
+
+    # At this point we have a concatenated and denormalised DataFrame with all the expanded columns.
+    # We can now get the describe() results for each column and add them to the Excel file as new sheets. The total rows won't
+    # be that meaningful as we've duplicated many rows, but it does reflect the multiple uses of each multivalued column.
     sys.stdout.write('Getting describe results..')
-    describe_results = get_describe_results(df)
+    describe_results = get_describe_results(new_df)
+
+    # Get unique combinations of ['Programme code', 'Security relationships_School', 'Current owning associatioin']
+    # unique_combinations = new_df[['Programme code', 'Security relationships_School', 'Current owning associatioin']].drop_duplicates()
+
+
+
 
     sys.stdout.write('Writing describe results..')
     add_describe_sheets(tgt, describe_results)
