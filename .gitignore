@@ -1,3 +1,6 @@
 *.xlsx
 *.pdf
 *.bak
+*.txt
+*.csv
+*.xls
