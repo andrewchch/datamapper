@@ -19,26 +19,22 @@ def build_tree(_df, parent_column, child_column, level_column, level_value):
 
 
 # Modify the build_tree function to recursively include all children, not just top-level nodes
-def build_tree_recursive(full_df, _visited, parent_name=None):
+def build_tree_recursive(full_df, _visited, parent_oid=None):
     tree = []
-    print(parent_name)
 
-    # The initial call to this function will have parent_name = None so the provided _df value will be the list of top level nodes
-    if parent_name is None:
-        subset = full_df[full_df['Parent school/section'] == 'University of Canterbury']
-    else:
-        subset = full_df[full_df['Parent faculty/division'] == parent_name]
+    subset = full_df[full_df['Parent school/section OID'] == parent_oid]
 
     for _, row in subset.iterrows():
         node_name = row['Name']
-        if node_name in _visited:
-            print('Skipping %s' % node_name)
+        node_oid = row['OID']
+        if node_oid in _visited:
+            print('Skipping %s, OID: %s' % (node_name, node_oid))
             continue
-        visited[node_name] = True
+        visited[node_oid] = True
 
-        children = build_tree_recursive(full_df, visited, node_name)
+        children = build_tree_recursive(full_df, visited, node_oid)
         print('children: %s' % len(children))
-        node = {'name': node_name}
+        node = {'name': node_name, 'oid': node_oid, 'level': row['Org unit level'][-1:]}
         if children:
             node['children'] = children
         tree.append(node)
@@ -53,9 +49,11 @@ df = pd.read_excel(file_path)
 # Create a forest data structure by identifying top-level nodes as those with "Org Unit Level2"
 visited = {}
 root = {
-    'Name': 'University of Canterbury'
+    'Name': 'University of Canterbury',
+    'oid': 6078.1,
+    'level': '1'
 }
-forest_data = build_tree_recursive(df, visited, None)
+forest_data = build_tree_recursive(df, visited, root['oid'])
 root['children'] = forest_data
 
 # Define the D3.js HTML template as a string (escaped for Python multi-line string)

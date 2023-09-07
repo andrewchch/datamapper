@@ -3,9 +3,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Interactive Organizational Structure</title>
+    <title>UC Organizational Structure</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
+        #container {
+            width: 1800px;
+            height: 5000px;
+            overflow: auto;
+            padding-top: 80px
+        }
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-left: 10px;
+            height: 120px;
+            width: 100%;
+            background-color: #fff;
+            z-index: 1000;
+        }
         .node circle {
             fill: #fff;
             stroke: steelblue;
@@ -22,21 +38,49 @@
     </style>
 </head>
 <body>
+    <div id="header">
+        <h1>UC Organizational Structure</h1>
+        <p>Click on the nodes to expand or collapse them.</p>
+        <button id="expandAll">Expand All</button>
+        <button id="collapseAll">Collapse All</button>
+    </div>
+    <div id="container">
+    </div>
     <script>
+        var headerHeight = 120;
         var treeData = {{ tree_data }};
+
+        // Initialize the SVG dimensions and viewBox
+        var svgWidth = 1700;  // Replace with actual SVG width
+        var svgHeight = 13000;  // Replace with actual SVG height
+
+        var divHeight = 5000;  // Replace with actual div height
+
+        // Calculate the initial minY value to center the SVG content vertically
+        var initialMinY = -(svgHeight - divHeight) / 2;
+
+        // Create the SVG element and set its viewBox
         var margin = {top: 20, right: 90, bottom: 30, left: 90},
             width = 1700 - margin.left - margin.right,
-            height = 1000 - margin.top - margin.bottom;
-        var svg = d3.select("body").append("svg")
-            .attr("width", width + margin.right + margin.left)
-            .attr("height", height + margin.top + margin.bottom)
+            height = 13000 - margin.top - margin.bottom;
+
+        var svg = d3.select("#container").append("svg")
+            .style("position", "absolute")
+            .style("top", (2500 + headerHeight) + "px")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .attr("viewBox", [0, 0, svgWidth, svgHeight])
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + (margin.top + height / 2) + ")");
+            .attr("transform", "translate(" + margin.left + "," + (margin.top + svgHeight / 2) + ")");
+
         var i = 0,
             duration = 750,
             root;
+
+        document.getElementById("container").scrollTop = height / 2;
+
         var treemap = d3.tree().size([height, width]);
-        treemap.nodeSize([20, 20]);
+        treemap.nodeSize([25, 25]);
         root = d3.hierarchy(treeData[0], function(d) { return d.children; });
         root.x0 = height / 2;
         root.y0 = -height / 2;
@@ -46,6 +90,15 @@
         }
 
         update(root);
+
+        // Function to recursively expand nodes
+        function expand(d) {
+          if (d._children) {
+            d.children = d._children;
+            d.children.forEach(expand);
+            d._children = null;
+          }
+        }
 
         function collapse(d) {
             if(d.children) {
@@ -71,11 +124,24 @@
                       ${d.y} ${d.x}`
             return path;
         }
+
+        // Event listener for "Expand All" button
+        d3.select("#expandAll").on("click", function() {
+          root.children.forEach(expand);
+          update(root);
+        });
+
+        // Event listener for "Collapse All" button
+        d3.select("#collapseAll").on("click", function() {
+          root.children.forEach(collapse);
+          update(root);
+        });
+
         function update(source) {
             var treeData = treemap(root);
             var nodes = treeData.descendants(),
                 links = treeData.descendants().slice(1);
-            nodes.forEach(function(d){ d.y = d.depth * 180});
+            nodes.forEach(function(d){ d.y = d.depth * 240});
             var node = svg.selectAll('g.node')
                 .data(nodes, function(d) {return d.id || (d.id = ++i); });
             var nodeEnter = node.enter().append('g')
@@ -146,7 +212,17 @@
                 d.x0 = d.x;
                 d.y0 = d.y;
             });
+
+            // Recompute the bounds of the SVG container
+            var x_min = d3.min(nodes, function(d) { return d.x; });
+            var x_max = d3.max(nodes, function(d) { return d.x; });
+            var y_min = d3.min(nodes, function(d) { return d.y; });
+            var y_max = d3.max(nodes, function(d) { return d.y; });
+
+            svg.attr("width", y_max - y_min + margin.left + margin.right);
+            svg.attr("height", x_max - x_min + margin.top + margin.bottom);
         }
     </script>
+
 </body>
 </html>
