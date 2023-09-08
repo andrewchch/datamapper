@@ -5,19 +5,20 @@
     <meta charset="UTF-8">
     <title>UC Organizational Structure</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         #container {
-            width: 1800px;
-            height: 5000px;
+            /* width: 1800px;
+            height: 5000px; */
             overflow: auto;
-            padding-top: 80px
+            padding-top: 150px
         }
         #header {
             position: fixed;
             top: 0;
             left: 0;
             padding-left: 10px;
-            height: 120px;
+            height: 150px;
             width: 100%;
             background-color: #fff;
             z-index: 1000;
@@ -52,26 +53,26 @@
 
         // Initialize the SVG dimensions and viewBox
         var svgWidth = 1700;  // Replace with actual SVG width
-        var svgHeight = 13000;  // Replace with actual SVG height
-
+        var svgHeight = 11000;  // Replace with actual SVG height
         var divHeight = 5000;  // Replace with actual div height
-
-        // Calculate the initial minY value to center the SVG content vertically
-        var initialMinY = -(svgHeight - divHeight) / 2;
+        var initialMinY = 6120; // Takes into account how the tree will expand
+        var initialExpandedHeight = 600; // Initial height of the expanded tree showing levels 1-2
 
         // Create the SVG element and set its viewBox
         var margin = {top: 20, right: 90, bottom: 30, left: 90},
-            width = 1700 - margin.left - margin.right,
-            height = 13000 - margin.top - margin.bottom;
+            width = svgWidth - margin.left - margin.right,
+            height = svgHeight - margin.top - margin.bottom;
 
         var svg = d3.select("#container").append("svg")
             .style("position", "absolute")
-            .style("top", (2500 + headerHeight) + "px")
+            .style("top", "200px")
+            .style("border", "1px solid black")
+            .attr("id", "svg_tree")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
             .attr("viewBox", [0, 0, svgWidth, svgHeight])
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + (margin.top + svgHeight / 2) + ")");
+            .attr("transform", "translate(" + margin.left + "," + initialMinY + ")");
 
         var i = 0,
             duration = 750,
@@ -221,8 +222,14 @@
 
             svg.attr("width", y_max - y_min + margin.left + margin.right);
             svg.attr("height", x_max - x_min + margin.top + margin.bottom);
+
+            // Scroll the window to the top of the initial tree
+            document.addEventListener('DOMContentLoaded', (event) => {
+                window.scrollTo(0, initialMinY - initialExpandedHeight * 0.5);  // Half of the div height
+            });
         }
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
