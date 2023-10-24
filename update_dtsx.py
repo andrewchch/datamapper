@@ -1,5 +1,6 @@
 import argparse
 import re
+import os
 
 from lxml import etree
 
@@ -86,8 +87,10 @@ def main():
     update_length_attrib_iter(root, 'length', namespaces, 'DTS')
 
     # Save the modified .dtsx file
-    # Create a new file name to save the modified file with the prefix "modified_"
-    output_filename = 'modified_' + filename
+    # get the filename using os.path splitting
+    outfile = os.path.basename(filename)
+    output_filename = filename.replace(outfile, 'modified_' + outfile)
+
     tree.write(output_filename, pretty_print=True, xml_declaration=True, encoding='UTF-8')
 
 

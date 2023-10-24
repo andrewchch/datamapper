@@ -41,15 +41,18 @@
 <body>
     <div id="header">
         <h1>UC Organizational Structure</h1>
-        <p>Click on the nodes to expand or collapse them.</p>
+        <p>Click on the nodes to expand or collapse them. <span style="color: red">Red</span> circles indicate that this org unit is not linked to any exported JADE entities (see <a href="https://dev.azure.com/uc-digital/Digital%20Services/_workitems/edit/54761">this ADO case</a> for more details)</p>
         <button id="expandAll">Expand All</button>
         <button id="collapseAll">Collapse All</button>
+        <button id="hideUnusedNodes">Hide Unused Nodes</button>
+        <button id="showAllNodes">Show All Nodes</button>
     </div>
     <div id="container">
     </div>
     <script>
         var headerHeight = 120;
         var treeData = {{ tree_data }};
+        var originalData = JSON.parse(JSON.stringify(treeData));
 
         // Initialize the SVG dimensions and viewBox
         var svgWidth = 1700;  // Replace with actual SVG width
@@ -57,6 +60,7 @@
         var divHeight = 5000;  // Replace with actual div height
         var initialMinY = 6120; // Takes into account how the tree will expand
         var initialExpandedHeight = 600; // Initial height of the expanded tree showing levels 1-2
+        var nodeDepth = 340; // Depth of each node in the tree
 
         // Create the SVG element and set its viewBox
         var margin = {top: 20, right: 90, bottom: 30, left: 90},
@@ -126,6 +130,29 @@
             return path;
         }
 
+        function hideUnusedNodes() {
+            function filterData(d) {
+                var used = typeof d.used === 'undefined' ? true : d.used;
+                if (!used) return null;
+                var children = (d.children || []).map(filterData).filter(Boolean);
+                return Object.assign({}, d, {children: children.length ? children : null});
+            }
+
+            var filteredData = filterData(originalData[0]);
+
+            root = d3.hierarchy(filteredData);
+            root.x0 = height / 2;
+            root.y0 = 0;
+            update(root);
+        }
+
+        function showAllNodes() {
+            root = d3.hierarchy(originalData[0]);
+            root.x0 = height / 2;
+            root.y0 = 0;
+            update(root);
+        }
+
         // Event listener for "Expand All" button
         d3.select("#expandAll").on("click", function() {
           root.children.forEach(expand);
@@ -138,11 +165,21 @@
           update(root);
         });
 
+        // Event listener for "Hide Unused" button
+        d3.select("#hideUnusedNodes").on("click", function() {
+          hideUnusedNodes();
+        });
+
+        // Event listener for "Show All Nodes" button
+        d3.select("#showAllNodes").on("click", function() {
+          showAllNodes();
+        });
+
         function update(source) {
             var treeData = treemap(root);
             var nodes = treeData.descendants(),
                 links = treeData.descendants().slice(1);
-            nodes.forEach(function(d){ d.y = d.depth * 240});
+            nodes.forEach(function(d){ d.y = d.depth * nodeDepth;});
             var node = svg.selectAll('g.node')
                 .data(nodes, function(d) {return d.id || (d.id = ++i); });
             var nodeEnter = node.enter().append('g')
@@ -155,7 +192,12 @@
             nodeEnter.append('circle')
                 .attr('class', 'node')
                 .attr('r', 1e-6)
+                .style("stroke", function(d) {
+                    // Check the "used" property and return color
+                    return d.data.used ? "black" : "red";
+                })
                 .style("fill", function(d) {
+                    // Check if the node has children and return color
                     return d._children ? "lightsteelblue" : "#fff";
                 });
             nodeEnter.append('text')
@@ -166,7 +208,7 @@
                 .attr("text-anchor", function(d) {
                     return d.children || d._children ? "end" : "start";
                 })
-                .text(function(d) { return d.data.name; });
+                .text(function(d) { return d.data.name + " (" + d.data.course_counts + ")"; });
             var nodeUpdate = nodeEnter.merge(node);
             nodeUpdate.transition()
                 .duration(duration)
@@ -175,7 +217,12 @@
                 });
             nodeUpdate.select('circle.node')
                 .attr('r', 10)
+                .style("stroke", function(d) {
+                    // Check the "used" property and return color
+                    return d.data.used ? "black" : "red";
+                })
                 .style("fill", function(d) {
+                    // Check if the node has children and return color
                     return d._children ? "lightsteelblue" : "#fff";
                 })
                 .attr('cursor', 'pointer');

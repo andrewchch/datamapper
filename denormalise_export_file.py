@@ -8,6 +8,7 @@ import os
 import pickle
 
 from tqdm import tqdm
+from courseoutcome import parse_fixed_fields_input
 
 # Create a custom logger
 logger = logging.getLogger()
@@ -21,8 +22,7 @@ c_handler.setFormatter(c_format)
 
 # Add handlers to the logger
 logger.addHandler(c_handler)
-logger.setLevel(logging.INFO)  # Set level to DEBUG, INFO, WARNING, ERROR, CRITICAL as needed
-
+logger.setLevel(logging.DEBUG)  # Set level to DEBUG, INFO, WARNING, ERROR, CRITICAL as needed
 
 clean_re = re.compile('[\\[\\]\\:\\/\\?\\*]')
 MULTIVALUE_COLUMN_DELIM = '[\\[\\]\:]+'
@@ -79,7 +79,13 @@ def parse_col(series, col):
                 if len(matches) == 0:
                     matches = [val]
 
-                new_df = pd.DataFrame([FIELD_DELIM_RE.split(m) for m in matches])
+                # Special case: Course outcome - outcome groups
+                if col == 'Outcome groups[OID:Code:Valid from:Valid to]':
+                    vals = [parse_fixed_fields_input(m) for m in matches]
+                else:
+                    vals = [FIELD_DELIM_RE.split(m) for m in matches]
+
+                new_df = pd.DataFrame(vals)
 
             # Set the index name and values
             new_df.index = [idx] * len(new_df)
@@ -89,6 +95,12 @@ def parse_col(series, col):
             col_matches = SUBROWS_RE.split(col)
             sub_cols = col_matches[1].split(SUBCOL_NAME_DELIM)
             col_prefix = col_matches[0].strip()
+
+            # If the number of sub-columns is greater than the number of values, log the rejected row and continue
+            if len(sub_cols) != len(new_df.columns):
+                logger.debug('Reject column: %s, idx: %s, value: %s, reason: %s' % (col, idx, val, 'Number of sub-columns is not equal to the number of values'))
+                continue
+
             new_df.columns = ['%s_%s' % (col_prefix, x.strip()) for x in sub_cols]
 
             # Apply utf8_to_ascii function to all string columns
@@ -104,6 +116,7 @@ def parse_col(series, col):
             dfs.append(new_df)
 
         # Concatenate these DataFrames into one
+        combined_df = None
         if len(dfs) > 0:
             combined_df = pd.concat(dfs)
 

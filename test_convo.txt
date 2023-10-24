@@ -1,0 +1,657 @@
+
+0:09
+Okay.
+
+0:10
+So anyway, how's it going?
+
+0:11
+So, so I had to catch up with Danelle couple weeks ago now, I think it was.
+
+0:20
+And she just mentioned that she'd be looking to this course creation process and the the links that it had with the time tabling kind of side of things.
+
+0:34
+So I mean and Shiv, she had, she talked to you directly.
+
+0:38
+I can't remember if it was you directly or what she had.
+
+0:41
+That's right.
+
+0:41
+Yeah.
+
+0:42
+So and you probably get with the context that we're trying to basically find all of the sort of sources and flows of which curriculum data sort of go through at UC and just make sure that when we move to this new system that we kind of don't leave any loose ends or don't leave anything kind of hanging as it were.
+
+0:59
+So yeah, just sort of we get to catch up and just kind of get your kind of just to get an understanding from you and for my own benefit of of how the sort of curriculum data that you sort of manage flows through your system, I guess specifically the time tabling sort of scheduling side of things.
+
+1:20
+Are you sure you want to limit it to just that?
+
+1:23
+Well, no, absolutely not.
+
+1:25
+So I'm completely open to whatever you're whatever you're looking after.
+
+1:31
+Let's say that.
+
+1:32
+So the main name of this is just to try and make sure we capture all of the sources of information that we need to take into account as we move to this new system.
+
+1:39
+So, so that whatever you want to tell me.
+
+1:43
+So at the moment, there are multiple data points that we just don't know about.
+
+1:51
+So the purpose, let's talk about timetable.
+
+1:54
+And to start with, the purpose of our role is to obviously generate A timetable for the whole university.
+
+1:59
+That's roughly 3 1/2 thousand.
+
+2:01
+We call them courses.
+
+2:03
+You can call it course occurrence if you would like.
+
+2:05
+Yeah, modules, usually I talk about course occurrences.
+
+2:09
+Sure.
+
+2:09
+The difference between a course and a course occurrence is the semester indicator and the campus indicator and our in your system, right.
+
+2:18
+So 3 1/2 thousand course occurrences.
+
+2:21
+We need the data for all of those course occurrences, which include the start and the end date, which as it is in Jade.
+
+2:31
+And then we have to go to the departments and ask them how they plan on running those courses, despite the fact that in theory that information should have been captured as it went through the course approval process.
+
+2:44
+So any new course that goes through queue app in theory has to identify the number of contact hours per semester.
+
+2:51
+So we're kind of double handling information.
+
+2:53
+We should already know what a course requires in terms of their delivery and pedagogy, but that that information isn't currently captured in Jade.
+
+3:03
+So looking at some of the other universities and how they use their CMS, I mean the Melbourne model is, if it's not in their CMS, they're not scheduling it.
+
+3:16
+So if they haven't put in there and and theirs gets quite intense because they have contract staff.
+
+3:23
+So if you have, yeah, put that, you're going to have three lectures and one tutorial, that's what you get paid for.
+
+3:29
+But if you deliver 2 lectures and two tutorials, there's a big no deal.
+
+3:33
+Their system says, no, it won't consume that information because that's not what is in their CMS.
+
+3:39
+For the CMS actually becomes the source of truth for how a course should be delivered because that's what was approved.
+
+3:47
+OK.
+
+3:47
+Yep, Interesting.
+
+3:49
+And there.
+
+3:50
+So this CMS has the capability to deal with all of that scheduling information.
+
+3:56
+Does that sort of.
+
+3:57
+But that should have powers does too.
+
+3:59
+Yeah.
+
+4:01
+Yeah.
+
+4:02
+Yes.
+
+4:03
+Yes, we do.
+
+4:05
+So I believe the system, well, the system we're looking at as a concept of class which is effectively cost current.
+
+4:12
+We're still, I mean we're still quite light on the details.
+
+4:14
+Obviously we've been through this process of of evaluating the system systems and choosing 1.
+
+4:21
+So yes, I believe it does handle that information about classes.
+
+4:28
+I guess it'd be the extent to which the functionality that you currently use within your timetable and system to actually manage that, whether that kind of matches what's that matches what's in the CMS system.
+
+4:43
+There's all these sort of boundary issues that we're trying to work out too.
+
+4:46
+Basically you know, we've got a piece of information that previously sort of set in the sort of domain of this particular system.
+
+4:53
+Can it now sit in CMS?
+
+4:55
+What does that mean in terms of we've kind of moved the integration boundary, if it's over here now it has to still integrate with other like room booking systems etc.
+
+5:03
+How does that kind of work?
+
+5:05
+Okay.
+
+5:06
+So that's good to know.
+
+5:07
+So, so I think you said before there are multiple systems that you're dealing with, Is that right?
+
+5:16
+Yes, there should.
+
+5:17
+Yeah.
+
+5:17
+So building on that sort of expectation from the CMS system, the other aspect of the timetable is course clashes.
+
+5:29
+So, right, we should know what courses form a degree program.
+
+5:34
+So if you're getting a Bachelor of Science in physics, we should know which courses are your mandatory courses and which courses are your optional courses.
+
+5:47
+And sorry, this has to be pedantic.
+
+5:48
+So when you say we should know, are you talking about sort of the the university as a whole or your the CMS, the university and every downstream?
+
+5:57
+Right.
+
+5:57
+System beyond there.
+
+5:59
+Right.
+
+5:59
+Cool.
+
+5:59
+OK, thank you.
+
+6:00
+We the royal one.
+
+6:04
+The royal way.
+
+6:05
+Yeah.
+
+6:06
+Awesome.
+
+6:07
+Because, you know right now the only source of that data sits in the calendar and cannot be consumed by any other system.
+
+6:15
+Yeah, Yeah, yes.
+
+6:22
+That's not great.
+
+6:26
+So so what's so in this case, of course clashes.
+
+6:31
+How do you sort of deal with that currently?
+
+6:34
+How does that manifest itself?
+
+6:39
+We literally have a bespoke way of dealing with it because there was no other way of doing it, which means that errors will always creep in.
+
+6:51
+So because it's done manually, errors will always creep in.
+
+6:57
+And it also means that that OK, let's give you a a real world example which I gave to ECLT earlier this year and Cheryl was horrified.
+
+7:07
+So 10,000 student sets were created in our database for the start of first semester 1/20/23.
+
+7:14
+So student sets are think of it as a data line which says these objects cannot clash.
+
+7:21
+So 10,000 student sets were created, bearing in mind we only have 19 ish 1000 students who are actually physically attending classes.
+
+7:29
+So basically two students per set.
+
+7:31
+But it doesn't work out like that at all because only fifty of those 10,000 student sets had more than 50 students in them enrolled.
+
+7:42
+Over half of those 10,000 did not have a single student enrollment.
+
+7:47
+What that speaks to is that we turn ourselves inside out to create a clash free timetable and the students don't even choose those options anyway, right.
+
+7:58
+OK, So we have to get to the stage where we are not constraining ourselves based on student sets because we have an accurate source of truth, which should be with the CMS, right?
+
+8:12
+OK, So what help with okay seeing these things.
+
+8:22
+It's true, by the way this prod.
+
+8:24
+You just supposed to solve all of my problems.
+
+8:26
+So be warned.
+
+8:28
+Yeah, I think it's supposed to solve a few people.
+
+8:31
+A few people's problems.
+
+8:34
+Yeah.
+
+8:34
+And well, yes, that's that's gonna be interesting.
+
+8:37
+That is gonna be interesting.
+
+8:38
+Well, all we can do is is catalog the catalog the, you know, the situation.
+
+8:42
+And then hopefully this will solve a lot of the problems in terms of, yeah, next what?
+
+8:52
+Sorry, next question.
+
+8:53
+Next problem.
+
+8:56
+Next problem.
+
+8:57
+Yeah.
+
+8:58
+So Co code of courses.
+
+8:58
+Yep.
+
+8:59
+Co Co code.
+
+9:00
+Yep.
+
+9:02
+We don't know.
+
+9:04
+There is no list.
+
+9:06
+No.
+
+9:07
+And I really do mean there is no categorical list anywhere.
+
+9:13
+If you see that tells you if of course is Co coded or not.
+
+9:19
+So that's not in Jade, that information not available from Jade somewhere.
+
+9:22
+OK that's OK Jade's about 75% accurate if that right.
+
+9:30
+So the the mechanism exists from what I've seen the mechanism exists within Jade to capture that that Co code granular enough saying it's basically it's just not a stop granular or possibly up to date accurate both okay.
+
+9:45
+So all of the above, right so right so I mean I say burn fire but there are certain faculties that are holding on to them but grim death.
+
+9:57
+But burn them in a burn fire to this not to scratch.
+
+10:02
+Okay so right.
+
+10:10
+Okay so Yep that's good to know.
+
+10:16
+And you got any any other any other shoes that you're sort of made she's that you're dealing with in terms of the other important one is it's a replacement for the part of JADE which identifies the assessment of the course.
+
+10:29
+So again, right.
+
+10:30
+We, I'm responsible for the exams team also sits under scheduling services.
+
+10:37
+The what?
+
+10:38
+Sorry.
+
+10:38
+The the, the exams.
+
+10:40
+Ohh, OK, right.
+
+10:40
+Yep.
+
+10:41
+So we should know well in advance whether a course is going to be having an exam.
+
+10:46
+We should know well in advance whether a course is going to be having a test and if they're going to be having any other invigilated sources of assessment.
+
+10:53
+Because we are also responsible for looking after students with disabilities and students with disabilities.
+
+10:58
+Yeah, get their own test arrangements made.
+
+11:02
+So all of that, yeah, information should be captured and consumed from CMS, right?
+
+11:11
+All should be.
+
+11:16
+So let's say if we have a future state where we've got this new CMS which captures all of this information, what in terms of say then scheduling or management of room bookings, etc.
+
+11:32
+How does that, What systems, what will be the balance of work that needs to be then done that you see outside of the CMS system?
+
+11:40
+What's the remainder that wouldn't be managed within the CMS, if that makes sense?
+
+11:46
+Or do you think basically the CMS manages everything to do with the CMS gives me is data the CMS?
+
+11:53
+Yeah, like it's just supposed to be a source of data.
+
+11:56
+What I've just gone through is about this much of our job.
+
+12:00
+Hmm.
+
+12:01
+Like it's not a case of just getting yeah course and book a room.
+
+12:04
+There is a lot more complexity to it than that.
+
+12:07
+Ohh, for sure.
+
+12:07
+For sure.
+
+12:08
+Yeah.
+
+12:08
+OK.
+
+12:09
+So well that's that's good to know.
+
+12:10
+So I'm just gonna get a sense of where that, you know where that boundary is essentially.
+
+12:14
+So we just want better data.
+
+12:18
+We are basically data analysts.
+
+12:21
+Right.
+
+12:23
+And don't want to have to be.
+
+12:26
+There is a reason why one of these.
+
+12:27
+Yeah.
+
+12:28
+Sits on my desk.
+
+12:31
+What is it?
+
+12:31
+Sorry, it's a crystal ball because there is no decent data anywhere.
+
+12:39
+Right?
+
+12:45
+So.
+
+12:57
+So in terms of the data, yeah, that's right.
+
+13:07
+Excuse me.
+
+13:08
+So in terms of the datasets that you care about, we're talking about basically all the information related to the courses, the occurrences of those courses, the the people, the the users who are who are related to those courses, what we call them the and the CIS course contributors, the lecturers, the coordinators, the tutors, et cetera, that would all also be, you would see that being managed within the CMS, essentially such that the CMS manages all the data that should be needed to manage the process of delivering that course effectively.
+
+13:50
+Yeah, Cool.
+
+13:51
+So also, yeah, OK, no, that's cool.
+
+13:59
+And so I guess in terms of what you do at the moment you do you interact with the course information system or course maintenance system at all.
+
+14:09
+So this is the the sort of I guess probably you're well would is but do you have a interaction or yeah do you work with it and have any thoughts on it in terms of quality or problems burn at the bit of fire as well because it's why because it's just another source of out of date exactly.
+
+14:29
+It is never up to date.
+
+14:31
+So we pulled downstream.
+
+14:33
+So we pulled from that system the course coordinators I would say more than half of the time it's wrong.
+
+14:42
+We often we we can't actually pull from that system the assessment but we can pull that from Jade again most of the time it's wrong or it's not updated in the timely manner like you know people remember.
+
+14:55
+Ohh, maybe I should check the maintenance system.
+
+14:59
+You know, one week before semester starts.
+
+15:01
+Well, that doesn't help the students.
+
+15:02
+That doesn't help us.
+
+15:03
+You know, we work six months in advance most of the time.
+
+15:06
+With what we've got to plan.
+
+15:07
+I'm currently building next year's timetable, right?
+
+15:11
+That's pointless to me.
+
+15:19
+It's just another manual upload because there.
+
+15:26
+Yeah, for sure.
+
+15:27
+From what I've seen.
+
+15:28
+Yeah, yeah.
+
+15:39
+Is there anything else that we haven't covered that you feel that the CMS will make your life, you know this, Yeah.
+
+15:48
+The curriculum management system will improve your life in terms of addressing data issues around.
+
+15:58
+If you managed to get those four things across the line, that's enough.
+
+16:04
+That's a starting point.
+
+16:05
+Those code is CMS.
+
+16:07
+I'm not gonna blue sky you because having been no, no, no project right now, I am well aware of what is achievable and what is not for sure.
+
+16:16
+OK.
+
+16:18
+So just to make sure I've got them, we've got course clashes, we've got cocoded courses.
+
+16:23
+We've got everything around this the CMS, sorry the course maintenance and being incorrect.
+
+16:30
+What did I mean this I'll, I'll go through the I'll go through our video recording to make sure I've got it all.
+
+16:40
+So we need to make sure we get yeah the pedagogy and delivery, the structure of the course.
+
+16:45
+We need to get the assessment of that course.
+
+16:47
+We need to get the program to study.
+
+16:49
+So that course should be assigned to MM, HM and the Co codes, those are the four gram Co codes, gram study Co codes cope.
+
+17:05
+OK that is great.
+
+17:10
+Oh well thank you for that.
+
+17:13
+It sounds, it sounds like you have a fair bit of frustration there in terms of the fragmentation of the data, which is understandable, yes.
+
+17:25
+Hopefully we can make a difference in that area.
+
+17:27
+It's not gonna be, I don't think it's gonna be a quick fix because you know we're sort of we're creating hopefully an improved subset of this data, but we're gonna create a bunch of other new kind of integration points which we don't have now, which we have to manage.
+
+17:41
+So it's gonna be a, it's gonna be a challenging project.
+
+17:45
+I think hopefully there will be some big improvements come out of it.
+
+17:48
+But yeah, I definitely see it's going to be a big job especially when there are as you say process issues, data quality issues that's you know which we'll have to deal with probably in advance of actually getting the system set up so that we're starting with good data.
+
+18:06
+So, so that will be a challenge.
+
+18:09
+Well, I thought, hey, thank you very much Kerry.
+
+18:11
+It was good to catch up with you and so, So what was your apologies, what was your sort of vital if you like in the group that you're actually scheduling services manager, scheduling services manager, Brilliant.
+
+18:31
+OK, that is great.
+
+18:32
+Hey, thank you very much and I'll, I'll be in touch if I have any other questions and certainly you'll be involved at some stage with the as the project, as the project proceeds.
+
+18:42
+Excellent.
+
+18:43
+Thank you.
+
+18:43
+Thank you very much.
+
+18:44
+OK, see you later.
+
+18:45
+Bye.

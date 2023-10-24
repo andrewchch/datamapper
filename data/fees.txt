@@ -1,0 +1,228 @@
+Fees
+Table of contents
+•	Table of contents
+•	Executive summary
+•	Current state
+o	Introduction
+o	Programme & course creation
+	Summary of the process
+	Fee bands
+	Delivery classification Guide 2023
+	UC funding categories
+o	Fees setting
+	Introduction
+	Domestic & SSL fees setting
+	International fees setting
+	Fees pricing - output of fees setting
+o	Displaying fees in Print and on Websites
+o	Reporting on Fees
+o	Enrolment fees
+o	Other enrolment fees
+o	UC Online fees
+o	Other fees
+•	Future State
+o	Enrolment Fees
+	Reasoning
+	Data Schema
+•	Fee setting process in CMS?
+•	Appendix
+o	Notes from the AEM Project
+o	New course proposal manual
+o	UC Online Wiki notes
+o	Wider discovery of fees data
+
+Executive summary
+UC are migrating Jade SMS to 2 distinct applications. CMS  (curriculum mgt sys) and SF (student first, also called SMS = student mgt system, also called SM).
+Fees are required in SM to calculate student invoices, and more. This section notes fees data that needs to be in CM, and also in SM too.
+The new CMS will be the single source of truth for all things curriculum, therefore which attributes of fees data falls in curriculum only?
+That leaves the actual fee price and its approval workflows for SM.
+The finance applications of Jade SMS student ledger (later SM or EBC - new finance sys) and Oracle (later EBC - new finance sys) will handle billing, invoicing, payment, and the other finance type functions.
+
+Fee pricing is driven by Govt policy and the competition. Govt policy uses 2 groupings, as discussed following.
+This results in the fees being calculated for subject bands defined by UC, that related to the Govt groupings.
+The actual courses (programmes of ) fall into subject bands and pick up a price because of the relation.
+Course prices are derived from the parent subject bands.
+The processes to get to the gate (or milestone) of a ready programme of courses are managed/performed by 2 departments:
+1.	Academic Quality govern Programme and course creation.
+2.	Financial Services perform Fee setting for new courses and for yearly price increases.
+This is to create enrolment fees for programmes/courses, also called tuition fees.
+
+The fees are published in the UC Calendar as part of Fees and Fines Regulations (p29 of 2023 Calendar PDF) and on the UC website in the following groups:
+1.	Per fee band and indicative subject area:
+1.	https://www.canterbury.ac.nz/get-started/fees/tuition-fee-structure/
+2.	Example: Fee Band = 5 | indicative subject area = Engineering, Forestry, Product Design | Undergraduate courses per 120 points (i.e. full-time annual) / Domestic student $8,238
+2.	Per qualification:
+1.	https://www.canterbury.ac.nz/study/qualifications-and-courses/bachelors-degrees/bachelor-of-engineering-with-honours/
+2.	Example: BE(Hons) | Indicative Second - Fourth Year fee | $8,238
+3.	The admissions team quote qualification fees (indicative price) in offer documents to potential students.
+3.	Per course (published online in relation to Course Occurrence):
+1.	https://www.canterbury.ac.nz/courseinfo/GetCourseDetails.aspx?course=ENGR101&occurrence=23S1(C)&year=2023
+2.	Foundations of engineering | Domestic fee | $1,030.00
+3.	A programme, a collection of courses, is the learning for achieving a qualification (an award).
+4.	A student selects courses to determine the enrolment fees total.
+
+The above curriculum & fees attributes come from:
+	Jade SMS - the starting point for all data at present. Some Fee Adjustments data in Jade (under Programme) associated with enrolment is mastered in Fees & Financials module but other fee fields closely tied to curriculum are mastered in Ac Model e.g. fee band/classifications. Fees in Jade mostly based on SDR codes/classification but some generated internally e.g. code 4 based on SDR, code 4.2 is for internal use but rolls up to code 4 for SDR. See Jade/code search/MOE - Funding Classification for examples.
+	CIS - a presentation app (and more) for Jade SMS. Find and display courses info with fee prices.
+	XMetaL - integration tool. It takes Jade SMS data, and extra marketing data is added. It exports subjects, qualifications, courses with fee prices for print and website.
+	Files of fees pricing - separately from curriculum for fee band prices and qualification prices.
+
+UC submit CUAP proposals (Committee on University Academic Programmes).
+'...CUAP meets twice a year (usually July and October) to consider proposals by universities for new qualifications or major changes to existing ones...'
+https://www.universitiesnz.ac.nz/about-universities-new-zealand/unz-committees-and-working-groups/committee-university-academic
+CUAP is about academic quality and curriculum and meeting those requirements.
+
+The following comment is from the SF project wiki...
+Historically Fee Bands matched TEC Funding Categories.  Over time there has been some separation or movement away from the TEC Funding Categories/Fee Band alignment and in practice it is now the Course Classification that determines the fee for a course.
+Broadly the Funding Category/Fee Band relationship still exists with exceptions. UC Fee bands are derived from the combination of Jade’s Funding category, Cost Category (or TEC’s Course Classification and Funding Category) and Source of Funding.
+At this link, search 'fee bands': https://ucdigitalsms.atlassian.net/wiki/spaces/SFP/pages/1682014593/Fees+Glossary+-+Fees+Current+Setup+Terminology+and+Details
+This workflow uses the bespoke Course Creation app accessed via OurUC: https://ouruc.canterbury.ac.nz/OurUC/
+The image following shows a small part of the data fields in the application to focus on fees:
+•	Fee band & Indicative subject area - 2 attributes - defined by UC.
+•	TEC funding classification - defined by TEC (Govt) - also called delivery classification, or course classification.
+•	TEC funding category - defined by TEC (Govt) - also called UFS funding category
+
+The example in the screen capture following:
+•	Fee band = 1
+•	Subject area = Arts, Social Science, Education
+•	TEC funding classification = 19.2 Teaching: primary
+•	TEC funding category = I2
+When a new course is being developed the Faculty/Department identifies the: funding classification.
+That automatically determines the funding category, which has an almost 1:1 relationship with a fee band.
+The above needs further explanation to identify the data fields. The following sections link up the same data fields from various sources.
+
+Fee bands
+Data defined by UC.
+Following the example in above:
+•	Fee band = 1
+•	Subject = ...Education...
+Also see the section below 'displaying fees' for different descriptions of the same.
+Delivery classification Guide 2023
+(previously named SAC 1 - 39 Course Classification Guide Update for 2020)
+https://www.tec.govt.nz/vocational-education/vocational-education/unified-funding-system-ufs/ufs-funding-categories-and-delivery-classifications/
+At the above link (same link as the section above), tapping the 3rd column heading, takes you to the following PDF. This is the course classification guide.
+The 2nd PDF attached following is the older 2020 file at the above link.
+The first PDF is the 'Classification Guide 2023' from the 'Blue Book - Programme and Course Development' link 2 sections above.
+Again, following the example from sections above:
+•	 #19.2: Teaching: Primary – recognised Degree/Diploma of Teaching
+
+
+
+
+
+
+
+UFS funding categories and delivery classifications
+https://www.tec.govt.nz/vocational-education/vocational-education/unified-funding-system-ufs/ufs-funding-categories-and-delivery-classifications/
+At the above link tapping the 2nd column named Funding categories results in the attached below. This is the Govt fee prices.
+Following the example above:
+•	Category Code = I
+•	Course class description = Teaching [#19.1, #19.2, #20]
+
+The fees in the right columns are defined as: Level 1,2,3,4
+Where: 2 = UG (under grad), 3 =PGT (post grad taught), 4 = PGR (post grad research)
+These are the guidance prices UC follows.
+
+UC funding categories
+https://ucliveac.sharepoint.com/sites/IntranetWHAcademicResources/SitePages/Blue%20Book%20-%20Programme%20and%20Course%20Approval.aspx
+This is a document from UC and repeating the Govt data section directly above.
+For the below attached, see the link: Funding categories on the SharePoint link above.
+Again, following the example in above sections:
+•	Category = I
+•	Relevant discipline and course classifications = Teaching [#19.1, #19.2, #20]
+Fees setting
+Introduction
+Student fees for qualifications and course occurrences are set by UC, based on TEC funding, and approved by multiple UC SLT (senior leadership teams).
+Tuition fees are calculated in 3 types. With the first 2 calculated in the same process.
+•	Domestic
+•	SSL (student service levies)
+•	International
+
+Financial Services provide a fee setting service to UC (Matt Hoole). They note the data schema is for Digital Services to provide.
+At this link is the present high-level grouping of fees: https://ucdigitalsms.atlassian.net/wiki/spaces/SFP/pages/1691648052/Summary+of+UC+Fees
+
+
+Enrolment fees
+The proceeding discussion above is for all programmes (groups of courses) and courses grouped as fee type = enrolment.
+In Jade SMS the equivalent is fee type = tuition. Tuition fees and enrolment fees are groupings of the same.
+Fee bands are created/edited in Jade SMS.  These are the same fee bands used in Course Creation. The code and description can be slightly different, but not so much that you cannot tell which are the same.
+Course creation and Jade SMS use different fee band data and they should use the same codes and descriptions.
+
+The derivations in the following images are derived fee bands so that other course occurrences (programmes) coded to the same, can be linked to the same parent fee band fee price.
+Because of this complexity, and the need for the calculation engine in Jade SMS to take the fee prices as input, the fees reside in Jade SMS and not CMS.
+
+
+Other enrolment fees
+While they are not grouped in a fee band, they are grouped in a derived fee band in Jade SMS and are also grouped in the Type = enrolment.
+They are subject to the same processes described above. They appear in the reports above as same records as enrolment fees.
+The same workflows above apply.
+Other enrolment fees:
+•	Medical physics registrars (a contract where the MoH pays)
+•	Special Programme - example: STAR (a high school student course where the high school pays)
+•	Special Programme - International Postgraduates – mainly taught masters
+
+UC Online fees
+Noted here to be clear that all these programmes/courses use the same attributes. They do conform to exactly the same data as the other enrolment fees.
+Example: UConline course OPSY610 screen capture from course creation.
+
+Other fees
+This section notes the other fees that are additional to the enrolment course occurrence fees.
+Other fees:
+•	Field trip (a sub-type of fee type = Compulsory course costs)
+•	StudentSafe Insurance (international students)
+
+Not using fee bands, and therefore not subject to TEC pricing.
+The documentation from SF (SM) summaries the different fees:
+https://ucdigitalsms.atlassian.net/wiki/spaces/SFP/pages/1682014593/Fees+Glossary+-+Fees+Current+Setup+Terminology+and+Details
+
+Future State
+Enrolment Fees
+Reasoning
+For fee bands, use exactly the same data schema (including codes and descriptions) for all applications/systems and spreadsheets.
+The above collection of data and processes high-lights some duplication, multiple names for the same piece of data, and descriptive data structures that are likely best arranged in a typical database structure.
+Keeping to the assumptions in the executive summary, the curriculum fees data is tabled following with source systems.
+Where the data is started in CMS, it will also reside in Jade SMS & SM. There will be integration to feed down-stream systems.
+No prices in CMS. Only the fee bands, and attributes that link programmes and courses to fee bands.
+Fees are from the Jade SMS course occurrence. So that to calculate fees, billing needs the course occurrence start date to pick up the correct fee value.
+Linking fee bands to subjects and qualifications, and to the TEC classifications and categories is necessary.
+It is important that Jade SMS, new SF (SMS), CMS, AEM should all use the same data schema and values where the data is repeated in downstream systems.
+Fee bands are mastered in CMS but not the fee band prices. Instead, captured in CMS are the attributes that are in course creation.
+The presentation of curriculum data using XMetaL, will require fee pricing, so it continues to use Jade SMS for it's source.
+
+Data Schema
+The fees entities and attributes are documented in a spreadsheet table at the following link:
+Fees entities Spreadsheet      (Folder for the fees file)
+
+
+Fee setting process in CMS?
+Should CMS workflow the fee setting and approval process in a first or later deployment?
+Since this is becoming a topic of discussion, it is worth capturing the  pros and cons.
+1.	Capturing fee prices in CMS would mean the price data is maintained annually to handle yearly increases, and not wanted in CMS - noted by Academic Quality.
+2.	Managing fees setting was not captured as a CM platform requirement or addressed as part of platform procurement. We do not know enough yet about the CMS workflow tool. It may not be ideal for fees type data, or the future ECB workflow meets the requirement: https://globalitfactory.com/cms-function/collaborate/
+3.	Fees are derived (calculated when needed) and so would need the business rules in both CM and SM. Over complicated? Only derive fees in the store where they are needed for billing which is SM.
+4.	Keep the process to approve curriculum and approve fees separate as they naturally run separately today. One does not hold up the other. Sometimes new curriculum is published without fee prices.
+5.	Fee pricing is complex, and this would need to be duplicated in CMS the same as Jade SMS if CMS was to take on the workflow of fee setting.
+
+
+Appendix
+Notes from the AEM Project
+Web Project Confluence - analysis of XMetal
+Web Project Confluence - fees
+
+New course proposal manual
+Course Creation User Guide
+
+UC Online Wiki notes
+UC Online Pricing
+
+Wider discovery of fees data
+•	Management of indicative fees for following academic year vs. actual qual/course fees
+•	Supplementary fees for specific programmes/courses e.g. Engineering workshops, forestry field trips, music workshops, sport coaching camp (see Programme Definition attributes #417-422) The same attributes have also been used historically to capture cultural prog (non-assessed) fees, some specific international and ex CC fees, Cert Foundation Studies discounts/waivers.
+•	The same course but different occurences may be offered under different funding schemes e.g. micro-credentials that might be offered privately and under the SAC scheme.
+Denise Curry update 26.5.23: Discussions re: Student Debtor Ledger integration as part of EBC RFP process
+
+
+
+
+
+
