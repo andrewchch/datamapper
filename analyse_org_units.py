@@ -105,7 +105,7 @@ def get_unique_oids(_file_name, file_data):
 
 def main():
     # Load org units
-    jade_dataframe = pd.read_excel(os.path.join("data", "jade_org_units.xlsx"), engine='openpyxl')
+    jade_dataframe = pd.read_excel(os.path.join("data", "cms_org_units.xls"), engine='openpyxl')
     ps_dataframe = pd.read_excel(os.path.join("data", "ps_org_units.xls"), sheet_name='OrganisationalUnit')
 
     # Compare the two dataframes on the OrgUnitDesc column in the ps_dataframe and the Name column in the jade_dataframe
