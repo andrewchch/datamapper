@@ -105,7 +105,7 @@ def get_unique_oids(_file_name, file_data):
 
 def main():
     # Load org units
-    jade_dataframe = pd.read_excel(os.path.join("data", "cms_org_units.xls"), engine='openpyxl')
+    jade_dataframe = pd.read_excel(os.path.join("data", "cms_org_units.xls"))
     ps_dataframe = pd.read_excel(os.path.join("data", "ps_org_units.xls"), sheet_name='OrganisationalUnit')
 
     # Compare the two dataframes on the OrgUnitDesc column in the ps_dataframe and the Name column in the jade_dataframe
@@ -132,6 +132,7 @@ def main():
 
     # Build a dataframe of all rows in jade_dataframe with OID values that are in the all_unique_values set
     used_jade_org_units = jade_dataframe[jade_dataframe['OID'].isin(all_unique_values)]
+    used_jade_org_units.to_excel(os.path.join("data", "used_jade_org_units.xlsx"))
 
     # Get all the unique OrgUnitDesc values from used_jade_org_units where the Name value is not in the ps_dataframe OrgUnitDesc column
     missing_jade_org_units = used_jade_org_units[~used_jade_org_units['Name'].isin(ps_dataframe['OrgUnitDesc'])]
